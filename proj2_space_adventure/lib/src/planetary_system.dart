@@ -4,7 +4,6 @@ import 'dart:core';
 import 'dart:io';
 
 class PlanetarySystem {
-  //final String cfgPath;
   String name = 'Unnamed System';
   List<Planet> planets;
 
