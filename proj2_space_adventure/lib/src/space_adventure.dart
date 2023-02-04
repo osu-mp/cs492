@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'planetary_system.dart';
+import 'planet.dart';
 
 class SpaceAdventure {
   PlanetarySystem planetarySystem;
@@ -10,13 +11,17 @@ class SpaceAdventure {
   void start() {
     printGreeting();
     printIntroducion(responseToPrompt('What is your name?'));
-    travel(promptForRandomOrSpecficDest(
-        'Shall I randomly choose a planet for you to visit? (Y or N)'));
+    if (planetarySystem.hasPlanets) {
+      travel(promptForRandomOrSpecficDest(
+          'Shall I randomly choose a planet for you to visit? (Y or N)'));
+    } else {
+      print('Aw, ther are no planets to explore.');
+    }
   }
 
   void printGreeting() {
     print('Welcome to the ${planetarySystem.name}!');
-    print('There are ${planetarySystem.planets.length} planets to explore');
+    print('There are ${planetarySystem.planetCount} planets to explore');
   }
 
   void printIntroducion(String name) {
@@ -30,15 +35,21 @@ class SpaceAdventure {
   }
 
   void travel(bool randomOrNot) {
+    Planet planet;
     if (randomOrNot) {
-      travelTo();
+      planet = planetarySystem.randomPlanet();
     } else {
-      var travelled = false;
-      while (travelled == false) {
-        travelled = travelTo(
-            responseToPrompt('Name the planet you would like to visit.'));
-      }
+      planet = planetarySystem.planetWithName(
+          responseToPrompt('Name the planet you would like to visit.'));  
+      while (planet == Planet.nullPlanet()){
+        print(
+          'A planet by that name cannot be found in ${planetarySystem.name}.\n'
+          'Please pick a planet from this list: ${planetarySystem.getPlanetsString()}');
+        var response = responseToPrompt('Name the planet you would like to visit.');
+        planet = planetarySystem.planetWithName(response);
+    }    
     }
+    travelToPlanet(planet);
   }
 
   bool promptForRandomOrSpecficDest(String prompt) {
@@ -59,24 +70,35 @@ class SpaceAdventure {
     return false;
   }
 
+  bool travelToPlanet(Planet planet) {
+    print('Travelling to ${planet.name}');
+    print('Arrived at ${planet.name}. ${planet.desc}');
+    return true;
+  }
+
   bool travelTo([planet]) {
+    if (planetarySystem.hasPlanets) return false;
+
     if (planet == null) {
       var planetNum = Random().nextInt(this.planetarySystem.planets.length);
       planet = this.planetarySystem.planets[planetNum].name;
     }
 
-    for (final element in this.planetarySystem.planets) {
-      if (planet == element.name) {
-        print('Travelling to $planet.\n'
-            '${element.desc}');
-        return true;
-      }
-    }
+    // var planetFound = false;
+    var destinationPlanet = planetarySystem.planetWithName(planet);
+    
+    // planetarySystem.planets.forEach((element) {
+    //   if (planet == element.name) {
+    //     print('Travelling to $planet.\n'
+    //         '${element.desc}');
+    //     planetFound = true;
+    //   }
+    // });
+
+    // if (planetFound) return true;
 
     // planet not found
-    print(
-        'A planet by the name of "$planet" cannot be found in ${planetarySystem.name}.\n'
-        'Please pick a planet from this list: ${planetarySystem.getPlanetsString()}');
+    
 
     return false;
   }

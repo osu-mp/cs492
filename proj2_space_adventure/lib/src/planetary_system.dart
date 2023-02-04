@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'dart:math';
 import 'dart:io';
+import 'planet.dart';
 
 class PlanetarySystem {
+  final Random _random = Random();
   String name = 'Unnamed System';
   List<Planet> planets;
 
@@ -19,6 +22,14 @@ class PlanetarySystem {
     return PlanetarySystem(json['name'] as String, _planets);
   }
 
+  int get planetCount => planets.length;
+  bool get hasPlanets => planets.isNotEmpty;
+
+  Planet randomPlanet() {
+    if (!hasPlanets) return Planet.nullPlanet();
+    return planets[_random.nextInt(planets.length)];
+  }
+
   String getPlanetsString() {
     var list = [];
     planets.forEach((element) {
@@ -27,15 +38,9 @@ class PlanetarySystem {
 
     return list.join(', ');
   }
-}
 
-class Planet {
-  String name;
-  String desc;
-
-  Planet(this.name, this.desc);
-
-  factory Planet.fromJson(dynamic json) {
-    return Planet(json['name'] as String, json['description'] as String);
+  Planet planetWithName(String name) {
+    return planets.firstWhere((planet) => planet.name == name,
+        orElse: () => Planet.nullPlanet());
   }
 }
