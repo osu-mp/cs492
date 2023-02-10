@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/components/centered_placeholder.dart';
+import 'styles.dart';
 
 class MainScreen extends StatelessWidget {
   final String title;
@@ -12,20 +13,25 @@ class MainScreen extends StatelessWidget {
       //body: CenteredPlaceholder(padding: 50),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [placeholderRow(), placeholderRow()],
+        children: [banner(context), placeholderRow(), placeholderRow()],
 
       )
 
     );
   }
 
+  Widget banner(context){
+    return Text('Mr. Butt!', style: Styles.textDefault,
+    );
+  }
+
   Widget paddedPlaceholder(){
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(20),
       child: SizedBox(
         width: 100,
         height: 100,
-        child: Placeholder(),
+        child: Image.asset("assets/ari1.png"),
       ),
     );
   }
