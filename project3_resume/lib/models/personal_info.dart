@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PersonalInfo {
-  final Image photo;
+  final String photoAssetPath;
   final String name;
   final String title;
   final String phone;
@@ -9,7 +9,7 @@ class PersonalInfo {
   final String email;
 
   PersonalInfo({
-   required this.photo,
+   required this.photoAssetPath,
     required this.name,
     required this.title,
     required this.phone,
