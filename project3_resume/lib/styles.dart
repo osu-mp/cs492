@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class Styles {
   static const _textSizeDefault = 36.0;
-  static final String _fontNameDefault = 'Raleway';
+  static final String _fontNameDefault = 'Roboto';
+
+  static final textHeadline = TextStyle(
+    fontFamily: 'EBGaramond',
+    fontSize: 36,
+  );
 
   static final textDefault = TextStyle(
     fontFamily: _fontNameDefault,
@@ -11,9 +16,14 @@ class Styles {
   );
 
   static final textDefaultSmall = TextStyle(
-    fontFamily: _fontNameDefault,
-    fontSize: _textSizeDefault * 0.6,
+    //fontFamily: _fontNameDefault,
+    fontSize: _textSizeDefault * 0.4,
 
   );
 
+  static final textDefaultExtraSmall = TextStyle(
+    //fontFamily: _fontNameDefault,
+    fontSize: _textSizeDefault * 0.3,
+
+  );
 }

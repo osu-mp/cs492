@@ -81,6 +81,13 @@ flutter:
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-VariableFont_wght.ttf
+    - family: EBGaramond
+      fonts:
+        - asset: assets/fonts/EBGaramond-VariableFont_wght.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoSlab-VariableFont_wght.ttf
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

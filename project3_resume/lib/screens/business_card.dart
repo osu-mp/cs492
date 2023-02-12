@@ -47,6 +47,7 @@ class _BusinessCardState extends State<BusinessCard> {
       print('portrait');
       return Column(
           children: [
+
             roundedProfilePhoto(context, person.photoAssetPath),
             contactInfo(context),
 
@@ -72,7 +73,7 @@ class _BusinessCardState extends State<BusinessCard> {
     );
   }
 
-  Widget textLauncher(String text, String launchUrl){
+  Widget textLauncher(String text, String launchUrl, {int fontSize=12}){
     return Padding(padding: EdgeInsets.all(10),
       child: GestureDetector(
         onTap: () { setState(() {
@@ -88,7 +89,7 @@ class _BusinessCardState extends State<BusinessCard> {
     final borderRadius = BorderRadius.circular(10); // Image border
 
     return Container(
-      padding: EdgeInsets.all(8), // Border width
+      padding: EdgeInsets.all(3), // Border width
       decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: borderRadius),
       child: ClipRRect(
         borderRadius: borderRadius,

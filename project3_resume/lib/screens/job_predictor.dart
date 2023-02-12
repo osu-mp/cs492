@@ -23,8 +23,10 @@ class _JobPredictorState extends State<JobPredictor> {
             onTap: () { setState(() {
               predictorAnswer.randomAnswer();
             });},
-            child: Text('Ask a question... tap for an answer',
-            style: Styles.textDefaultSmall),
+            // not a button
+            child: magic8BallSwitcher('Ask a question... tap for answer', context),
+            // child: Text('OLD Ask a question... tap for an answer',
+            // style: Styles.textDefaultSmall),
           ),
         ),
         Text('${predictorAnswer.currentAnswer}', style: Styles.textDefault,)
@@ -32,6 +34,24 @@ class _JobPredictorState extends State<JobPredictor> {
     );
     return Text('Predictor');
 
+ }
+
+ Widget magic8BallSwitcher(String label, BuildContext context){
+   return Container(
+     child: new Text (
+         label,
+         style: Styles.textDefaultSmall
+         // style: new TextStyle(
+         //     color: Colors.blue[500],
+         //     fontWeight: FontWeight.w900
+         // )
+     ),
+     decoration: new BoxDecoration (
+         borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
+         color: Theme.of(context).primaryColorLight
+     ),
+     padding: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+   );
  }
 
 }
