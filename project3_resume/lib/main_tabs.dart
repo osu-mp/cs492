@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'screens/business_card.dart';
 import 'screens/job_predictor.dart';
 
 class MainTabs extends StatelessWidget {
   static const tabs = [
-    Tab(text: 'Personal Info',
+    Tab(text: 'Business Card',
       icon: Icon(
-        Icons.face, semanticLabel: 'Personal Info',
+        Icons.face, semanticLabel: 'Business Card',
       ),),
     Tab(text: 'Resume',
       icon: Icon(
@@ -17,7 +18,7 @@ class MainTabs extends StatelessWidget {
       ),),
   ];
 
-  final screens = [Placeholder(), Placeholder(), JobPredictor()];
+  final screens = [BusinessCard(), Placeholder(), JobPredictor()];
 
   @override
   Widget build(BuildContext context) {

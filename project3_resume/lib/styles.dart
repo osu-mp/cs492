@@ -7,6 +7,13 @@ class Styles {
   static final textDefault = TextStyle(
     fontFamily: _fontNameDefault,
     fontSize: _textSizeDefault,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final textDefaultSmall = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: _textSizeDefault * 0.6,
+
   );
 
 }
