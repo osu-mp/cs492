@@ -15,18 +15,25 @@ Use your photo, or a any avatar photo, instead of the Placeholder shown in the e
      */
 
 class BusinessCard extends StatefulWidget {
+  final PersonalInfo _person;
+
+  BusinessCard(this._person);
+
   @override
-  State<BusinessCard> createState() => _BusinessCardState();
+  State<BusinessCard> createState() => _BusinessCardState(_person);
 }
 
 class _BusinessCardState extends State<BusinessCard> {
+  final PersonalInfo _person;
+
+  _BusinessCardState(this._person);
   // TODO: make person an input to this class
-  final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
-      name: 'Matthew Pacey',
-      title: 'Software Developer',
-      phone: '785 393 1528',
-      personalURL: 'https://github.com/osu-mp',
-      email: 'paceym@oregonstate.edu');
+  // final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
+  //     name: 'Matthew Pacey',
+  //     title: 'Software Developer',
+  //     phone: '785 393 1528',
+  //     personalURL: 'https://github.com/osu-mp',
+  //     email: 'paceym@oregonstate.edu');
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,7 @@ class _BusinessCardState extends State<BusinessCard> {
       return
           Row(
             children: [
-              roundedProfilePhoto(context, person.photoAssetPath),
+              roundedProfilePhoto(context, _person.photoAssetPath),
               Spacer(),
               Expanded( child: contactInfo(context)
               ),
@@ -48,7 +55,7 @@ class _BusinessCardState extends State<BusinessCard> {
       return Column(
           children: [
 
-            roundedProfilePhoto(context, person.photoAssetPath),
+            roundedProfilePhoto(context, _person.photoAssetPath),
             contactInfo(context),
 
           ],
@@ -63,11 +70,11 @@ class _BusinessCardState extends State<BusinessCard> {
       // crossAxisAlignment: CrossAxisAlignment.baseline,
       // textBaseline: TextBaseline.ideographic,
       children: [
-        Text(person.name, style: Styles.textDefault,),
-        Text(person.title, style: Styles.textDefaultSmall,),
-        textLauncher(person.phone, 'sms:${person.phone}'),
-        textLauncher(person.personalURL, person.personalURL),
-        textLauncher(person.email, 'mailto:${person.email}'),
+        Text(_person.name, style: Styles.textDefault,),
+        Text(_person.title, style: Styles.textDefaultSmall,),
+        textLauncher(_person.phone, 'sms:${_person.phone}'),
+        textLauncher(_person.personalURL, _person.personalURL),
+        textLauncher(_person.email, 'mailto:${_person.email}'),
 
       ],
     );

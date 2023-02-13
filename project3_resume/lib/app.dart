@@ -6,7 +6,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Exploration 6',
+      title: 'Project 3 - Call Me Matthew',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       home: MainTabs(),
       // home: MainTabController(),

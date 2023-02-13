@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:project3_resume/models/personal_info.dart';
 import 'screens/business_card.dart';
+import 'screens/resume.dart';
 import 'screens/job_predictor.dart';
+import 'data/personal_data.dart';
 
 class MainTabs extends StatelessWidget {
+  //final PersonalInfo person = person;
+
   static const tabs = [
     Tab(text: 'Business Card',
       icon: Icon(
@@ -18,7 +23,7 @@ class MainTabs extends StatelessWidget {
       ),),
   ];
 
-  final screens = [BusinessCard(), Placeholder(), JobPredictor()];
+  final screens = [BusinessCard(person), Resume(person), JobPredictor()];
 
   @override
   Widget build(BuildContext context) {

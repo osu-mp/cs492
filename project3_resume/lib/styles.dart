@@ -15,6 +15,18 @@ class Styles {
     fontWeight: FontWeight.bold,
   );
 
+  static final textHeading1 = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final textHeading2 = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: 16,
+    // fontWeight: FontWeight.bold,
+  );
+
   static final textDefaultSmall = TextStyle(
     //fontFamily: _fontNameDefault,
     fontSize: _textSizeDefault * 0.4,
