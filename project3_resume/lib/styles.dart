@@ -39,3 +39,9 @@ class Styles {
 
   );
 }
+
+Divider defaultDivider(BuildContext context) {
+  return Divider(
+    color: Theme.of(context).primaryColor,
+    height: 20, thickness: 4, indent: 40, endIndent: 40);
+}

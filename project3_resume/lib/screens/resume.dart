@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project3_resume/models/personal_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/personal_info.dart';
 import '../styles.dart';
 
@@ -24,9 +24,10 @@ class Resume extends StatelessWidget {
                 // children: jobWidgets,
                 children: [
                   Text(_person.name, style: Styles.textDefault, ),
+
                   Text(_person.email, style: Styles.textDefaultSmall,),
                   Text(_person.personalURL, style: Styles.textDefaultSmall,),
-                  for(var job in _person.jobs) jobWidget(job),
+                  for(var job in _person.jobs) jobWidget(job, context),
                   // jobWidgets,
                 ],
               ),
@@ -37,20 +38,31 @@ class Resume extends StatelessWidget {
     );
   }
 
-  Widget jobWidget(JobDesc job){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // TODO bold title
-        Text(job.title, style: Styles.textHeading1,),
-        Row(children: [
-          Expanded(child: Text(job.company, style: Styles.textHeading2,)),
-          Expanded(child: Text(job.dateRange, style: Styles.textHeading2,)),
-          Expanded(child: Text(job.location, style: Styles.textHeading2,))
+  Widget jobWidget(JobDesc job, context){
+    return Container(
+      child: Column(
+        
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // TODO bold title
+          Text(job.title, style: Styles.textHeading1,),
+          Padding(padding: EdgeInsets.all(3)),
+          Row(children: [
+            Expanded(child: Text(job.company, style: Styles.textHeading2,)),
+            Expanded(child: Text(job.dateRange, style: Styles.textHeading2,)),
+            Expanded(child: Text(job.location, style: Styles.textHeading2,
+            textAlign: TextAlign.right,)),
+          ],
+          ),
+          Padding(padding: EdgeInsets.all(3)),
+          Text(job.description, textAlign: TextAlign.justify,),
+          Padding(padding: EdgeInsets.all(3)),
+          Divider(color: Theme.of(context).primaryColor, height: 20, thickness: 4,
+          indent: 40, endIndent: 40,),
+
+           // TODO : call super in stateless constructors
         ],
-        ),
-        Text(job.description)
-      ],
+      ),
     );
   }
 

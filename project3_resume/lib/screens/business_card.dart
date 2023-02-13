@@ -27,37 +27,28 @@ class _BusinessCardState extends State<BusinessCard> {
   final PersonalInfo _person;
 
   _BusinessCardState(this._person);
-  // TODO: make person an input to this class
-  // final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
-  //     name: 'Matthew Pacey',
-  //     title: 'Software Developer',
-  //     phone: '785 393 1528',
-  //     personalURL: 'https://github.com/osu-mp',
-  //     email: 'paceym@oregonstate.edu');
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width * 0.5;
     if (MediaQuery.of(context).orientation == Orientation.landscape){
-      print('landscape');
       return
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               roundedProfilePhoto(context, _person.photoAssetPath),
-              Spacer(),
-              Expanded( child: contactInfo(context)
-              ),
+              //Spacer(),
+              Padding(padding: EdgeInsets.all(50)),
+              contactInfo(context)
               ],
           );
     }
     else {
-      print('portrait');
       return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             roundedProfilePhoto(context, _person.photoAssetPath),
             contactInfo(context),
-
           ],
       );
     }
@@ -66,18 +57,20 @@ class _BusinessCardState extends State<BusinessCard> {
 
   Widget contactInfo(BuildContext context) {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.baseline,
-      // textBaseline: TextBaseline.ideographic,
-      children: [
-        Text(_person.name, style: Styles.textDefault,),
-        Text(_person.title, style: Styles.textDefaultSmall,),
-        textLauncher(_person.phone, 'sms:${_person.phone}'),
-        textLauncher(_person.personalURL, _person.personalURL),
-        textLauncher(_person.email, 'mailto:${_person.email}'),
+        //mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        // textBaseline: TextBaseline.ideographic,
+        children: [
+          Text(_person.name, style: Styles.textDefault,),
+          defaultDivider(context),
+          Text(_person.title, style: Styles.textHeading1,),
+          textLauncher(_person.phone, 'sms:${_person./**/phone}'),
+          textLauncher(_person.personalURL, _person.personalURL),
+          textLauncher(_person.email, 'mailto:${_person.email}'),
 
-      ],
-    );
+        ],
+      );
   }
 
   Widget textLauncher(String text, String launchUrl, {int fontSize=12}){
@@ -92,17 +85,22 @@ class _BusinessCardState extends State<BusinessCard> {
   }
 
   Widget roundedProfilePhoto(BuildContext context, String imagePath){
-    final size = MediaQuery.of(context).size.width * 0.5;
+    double size = MediaQuery.of(context).size.width * 0.75;
+    if (MediaQuery.of(context).orientation == Orientation.landscape) {
+      size = MediaQuery.of(context).size.height * 0.5;
+    }
     final borderRadius = BorderRadius.circular(10); // Image border
 
     return Container(
       padding: EdgeInsets.all(3), // Border width
       decoration: BoxDecoration(color: Theme.of(context).primaryColorLight, borderRadius: borderRadius),
+      width: size,
+      height: size,
       child: ClipRRect(
         borderRadius: borderRadius,
         child: SizedBox.fromSize(
           size: Size.fromRadius(48), // Image radius
-          child: Image.asset(imagePath, fit: BoxFit.cover, width: size, height: size,),
+          child: Image.asset(imagePath, fit: BoxFit.cover),
         ),
       ),
     );

@@ -3,7 +3,7 @@ import '../models/personal_info.dart';
 final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
     name: 'Matthew Pacey',
     title: 'Software Developer',
-    phone: '785 393 1528',
+    phone: '785-393-1528',
     personalURL: 'https://github.com/osu-mp',
     email: 'paceym@oregonstate.edu',
   jobs: [
@@ -11,7 +11,8 @@ final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
         company: 'OSU',
         dateRange: '2023-Present',
         location: 'Corvallis, OR',
-        description: 'Description'),
+        description: '''Assisted on the Machine Common Sense program, a DARPA funded program to mimic the learning and behavior of 18 month old toddlers.
+        '''),
     JobDesc(title: 'Product Development Engineer',
         company: 'Intel',
         dateRange: '2007-2023',
@@ -21,6 +22,14 @@ final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
         company: 'Rockwell Collins',
         dateRange: '2006',
         location: 'Cedar Rapids, IA',
-        description: 'Assisted in the development of a ground-based software tool for the Navigation Systems Team. Utilized test driven development techniques to develop verification software.')
+        description: 'Assisted in the development of a ground-based software tool for the Navigation Systems Team. Utilized test driven development techniques to develop verification software.'),
+    JobDesc(title: 'Technical Intern',
+        company: 'Honeywell Aerospace',
+        dateRange: '2002-2005',
+        location: 'Olathe, KS',
+        description: '''Started as a mentored intern as a High School Senior and returned as a full-time intern during
+undergraduate summers. Worked directly with pilots to develop integrated cockpit displays in
+OpenGL and C++. Used constant communication with pilots to adjust displays.
+        ''')
   ]
 );
