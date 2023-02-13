@@ -9,15 +9,15 @@ class MainTabs extends StatelessWidget {
   //final PersonalInfo person = person;
 
   static const tabs = [
-    Tab(text: 'Business Card',
+    Tab(//text: 'Business Card',
       icon: Icon(
         Icons.face, semanticLabel: 'Business Card',
       ),),
-    Tab(text: 'Resume',
+    Tab(//text: 'Resume',
       icon: Icon(
         Icons.contact_page, semanticLabel: 'Resume',
       ),),
-    Tab(text: 'Questions',
+    Tab(//text: 'Questions',
       icon: Icon(
         Icons.question_mark, semanticLabel: 'Questions',
       ),),

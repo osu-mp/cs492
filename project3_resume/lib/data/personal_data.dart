@@ -2,7 +2,7 @@ import '../models/personal_info.dart';
 
 final person = PersonalInfo(photoAssetPath: 'assets/images/face.png',
     name: 'Matthew Pacey',
-    title: 'Software Developer',
+    title: 'Senior Software Developer',
     phone: '785-393-1528',
     personalURL: 'https://github.com/osu-mp',
     email: 'paceym@oregonstate.edu',

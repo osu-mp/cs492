@@ -15,6 +15,12 @@ class Styles {
     fontWeight: FontWeight.bold,
   );
 
+  static final textSubHeading = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+
   static final textHeading1 = TextStyle(
     fontFamily: _fontNameDefault,
     fontSize: 18,

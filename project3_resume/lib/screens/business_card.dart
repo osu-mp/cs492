@@ -63,30 +63,29 @@ class _BusinessCardState extends State<BusinessCard> {
 
 
   Widget contactInfo(BuildContext context) {
-    return Column(
-        //mainAxisSize: MainAxisSize.min,
-        // mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
-        // textBaseline: TextBaseline.ideographic,
-        children: [
-          Text(_person.name, style: Styles.textDefault,),
-          defaultDivider(context),
-          Text(_person.title, style: Styles.textHeading1,),
-          textLauncher(_person.phone, 'sms:${_person./**/phone}'),
-          textLauncher(_person.personalURL, _person.personalURL),
-          textLauncher(_person.email, 'mailto:${_person.email}'),
+    return Expanded(
 
-        ],
-      );
+      child: Column(
+          children: [
+            Text(_person.name, style: Styles.textDefault,),
+            defaultDivider(context),
+            Text(_person.title, style: Styles.textSubHeading),
+            textLauncher(_person.phone, 'sms:${_person./**/phone}', Styles.textHeading1),
+            textLauncher(_person.personalURL, _person.personalURL, Styles.textHeading2),
+            textLauncher(_person.email, 'mailto:${_person.email}', Styles.textHeading2),
+
+          ],
+        ),
+    );
   }
 
-  Widget textLauncher(String text, String launchUrl, {int fontSize=12}){
+  Widget textLauncher(String text, String launchUrl, TextStyle style){
     return Padding(padding: EdgeInsets.all(10),
       child: GestureDetector(
         onTap: () { setState(() {
           launch(launchUrl);
         });},
-        child: Text(text, style: Styles.textDefaultSmall,),
+        child: Text(text, style: style,),
       ),
     );
   }

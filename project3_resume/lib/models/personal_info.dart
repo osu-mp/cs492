@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class PersonalInfo {
   final String photoAssetPath;
   final String name;

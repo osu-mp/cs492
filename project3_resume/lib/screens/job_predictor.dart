@@ -23,7 +23,7 @@ class _JobPredictorState extends State<JobPredictor> {
             onTap: () { setState(() {
               predictorAnswer.randomAnswer();
             });},
-            // not a button
+            // requirement not a button (it is a container of text)
             child: magic8BallSwitcher('Ask a question... tap for answer', context),
             // child: Text('OLD Ask a question... tap for an answer',
             // style: Styles.textDefaultSmall),
@@ -41,10 +41,6 @@ class _JobPredictorState extends State<JobPredictor> {
      child: new Text (
          label,
          style: Styles.textDefaultSmall
-         // style: new TextStyle(
-         //     color: Colors.blue[500],
-         //     fontWeight: FontWeight.w900
-         // )
      ),
      decoration: new BoxDecoration (
          borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
