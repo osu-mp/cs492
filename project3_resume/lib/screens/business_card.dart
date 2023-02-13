@@ -32,24 +32,31 @@ class _BusinessCardState extends State<BusinessCard> {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.landscape){
       return
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              roundedProfilePhoto(context, _person.photoAssetPath),
-              //Spacer(),
-              Padding(padding: EdgeInsets.all(50)),
-              contactInfo(context)
-              ],
+          Card(
+            color: Theme.of(context).primaryColorLight,
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                roundedProfilePhoto(context, _person.photoAssetPath),
+                //Spacer(),
+                Padding(padding: EdgeInsets.all(50)),
+                contactInfo(context)
+                ],
+            ),
           );
     }
     else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            roundedProfilePhoto(context, _person.photoAssetPath),
-            contactInfo(context),
-          ],
+      return Card(
+        color: Theme.of(context).primaryColorLight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              roundedProfilePhoto(context, _person.photoAssetPath),
+              contactInfo(context),
+            ],
+        ),
       );
     }
   }

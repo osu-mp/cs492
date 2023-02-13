@@ -24,7 +24,7 @@ class Styles {
   static final textHeading2 = TextStyle(
     fontFamily: _fontNameDefault,
     fontSize: 16,
-    // fontWeight: FontWeight.bold,
+    fontStyle: FontStyle.italic,
   );
 
   static final textDefaultSmall = TextStyle(
@@ -35,7 +35,7 @@ class Styles {
 
   static final textDefaultExtraSmall = TextStyle(
     //fontFamily: _fontNameDefault,
-    fontSize: _textSizeDefault * 0.3,
+    fontSize: 12,
 
   );
 }
