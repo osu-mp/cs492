@@ -20,15 +20,26 @@ class App extends StatelessWidget {
       title: 'Adaptive Layouts',
       home: Scaffold(
         appBar: AppBar(title: Text('Adaptive Layouts'),),
-        body: Container(
-          //constraints: BoxConstraints(maxHeight: 300, maxWidth: 400, minWidth: 400),
-          child: LayoutBuilder(builder: (context, constraints){
-            return constraints.maxWidth < 500 ? VerticalLayout() : HorizontalLayout();
-          }),
-        ),
+        body:
+          // Container(
+          // //constraints: BoxConstraints(maxHeight: 300, maxWidth: 400, minWidth: 400),
+          // child: LayoutBuilder(builder: (context, constraints){
+          //   return constraints.maxWidth < 500 ? VerticalLayout() : HorizontalLayout();
+          // }),
+          // ),
+          AdaptiveWidget(),
       ),
     );
   }
+}
+
+class AdaptiveWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+  
 }
 
 class VerticalLayout extends StatelessWidget{
