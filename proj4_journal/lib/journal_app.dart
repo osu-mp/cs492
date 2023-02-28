@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:proj4_journal/widgets/journal_entry_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/settings_drawer.dart';
 import 'db/database_manager.dart';
 import 'db/journal_entry_dto.dart';
+import 'widgets/journal_scaffold.dart';
 
 const DARK_MODE_KEY = 'DarkModeEnabled';
 
 class JournalApp extends StatefulWidget {
   final SharedPreferences preferences;
+  late final DatabaseManager dbManager;
 
   JournalApp({Key? key, required this.preferences}) : super(key: key){
     dbInit();
@@ -15,22 +18,26 @@ class JournalApp extends StatefulWidget {
 
   void dbInit() async {
 
-    var dbManager = DatabaseManager.getInstance();
-    for (var i = 0; i < 5; i++) {
-      JournalEntryDTO dto = JournalEntryDTO();
-      dto.title = 'Title $i';
-      dto.dateTime = DateTime.now();
-      dto.rating = 4;
-      dto.body = 'Some body text for item $i';
-      dbManager.saveJournalEntry(dto: dto);
-      print('Saved dummy entry $i}');
-    }
+    dbManager = DatabaseManager.getInstance();
+    // for (var i = 0; i < 5; i++) {
+    //   JournalEntryDTO dto = JournalEntryDTO();
+    //   dto.title = 'Title $i';
+    //   dto.dateTime = DateTime.now();
+    //   dto.rating = 4;
+    //   dto.body = 'Some body text for item $i';
+    //   dbManager.saveJournalEntry(dto: dto);
+    //   print('Saved dummy entry $i}');
+    // }
 
+    var entries = await dbManager.journalEntries();
+    print('Count of entries ${entries.length}');
   }
 
 
   static final routes = {
     // SettingsDrawer.routeName: (context) => SettingsDrawer(),
+    JournalEntryForm.routeName: (context) => JournalEntryForm(),
+    // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
   };
 
   @override
@@ -44,7 +51,7 @@ class _JournalAppState extends State<JournalApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Adaptive Layouts',
-      // routes: JournalApp.routes,
+      routes: JournalApp.routes,
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(
         endDrawer: SettingsDrawer(
@@ -69,12 +76,27 @@ class _JournalAppState extends State<JournalApp> {
             ],
           ),
 
-          body:
-        Text('Blah')
+          body: JournalScaffold(dbManager: widget.dbManager),
+
+
+        floatingActionButton: AddEntryButton(), // This trailing comma makes auto-formatting nicer for build methods.
       ),
+      // initialRoute:  JournalScaffold.routeName,
     );
   }
 }
 
+class AddEntryButton extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: (){
+        Navigator.of(context).pushNamed(JournalEntryForm.routeName);
+      },
+      tooltip: 'Add New Journal Entry',
+      child: const Icon(Icons.add),
+    );
+  }
 
+}
 

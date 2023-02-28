@@ -59,7 +59,7 @@ class DatabaseManager {
           title: record['title'].toString(),
           body: record['body'].toString(),
           rating: int.parse(record['rating'].toString()),
-          dateTime: DateTime.parse(record['dateTime'].toString());
+          dateTime: DateTime.parse(record['dateTime'].toString()));
       }).toList();
 
       return journalEntries;
