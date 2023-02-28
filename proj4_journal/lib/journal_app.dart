@@ -1,20 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/settings_drawer.dart';
+import 'constants.dart';
 
-class JournalApp extends StatelessWidget {
+class JournalApp extends StatefulWidget {
+  final SharedPreferences preferences;
+  // final Function(bool) darkModeChanged;
+
+  JournalApp({Key? key, required this.preferences}) : super(key: key);
 
   static final routes = {
-    SettingsDrawer.routeName: (context) => SettingsDrawer(),
+    // SettingsDrawer.routeName: (context) => SettingsDrawer(),
   };
 
   @override
+  State<JournalApp> createState() => _JournalAppState();
+}
+
+class _JournalAppState extends State<JournalApp> {
+  bool get darkMode => widget.preferences.getBool(DARK_MODE_KEY) ?? false;
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return MaterialApp(
       title: 'Adaptive Layouts',
-      routes: routes,
+      // routes: JournalApp.routes,
+      theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(
-        endDrawer: SettingsDrawer(),
+        endDrawer: SettingsDrawer(
+            preferences: widget.preferences,
+            darkModeChanged: () {
+              setState(() {
+                bool a = false;
+              });
+            },
+        ),
           appBar: AppBar(
             title: Text('Journal Entries'),
             actions: [
@@ -40,6 +61,12 @@ class JournalApp extends StatelessWidget {
         Text('Blah')
       ),
     );
+  }
+
+  void update() {
+    setState(() {
+      var a = 1;
+    });
   }
 }
 

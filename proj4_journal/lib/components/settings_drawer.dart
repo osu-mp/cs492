@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart';
 
 class SettingsDrawer extends StatefulWidget {
   static const routeName = 'settings';
+  final SharedPreferences preferences;
+  final VoidCallback darkModeChanged;
 
-  const SettingsDrawer({super.key});
+  const SettingsDrawer({super.key,
+    required this.preferences,
+    required this.darkModeChanged
+  });
 
   @override
   State<SettingsDrawer> createState() => _SettingsDrawerState();
@@ -33,11 +40,14 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
             // ),
             SwitchListTile(
                 title: const Text('Dark Mode'),
-                value: _darkMode,
+                value: widget.preferences.getBool(DARK_MODE_KEY) ?? false,
                 onChanged: (bool value){
-              setState(() {
-                _darkMode = value;
-              });
+                  setState(() {
+                    _darkMode = value;
+                    widget.preferences.setBool(DARK_MODE_KEY, value);
+                    widget.darkModeChanged();
+                    print('Dark mode $value');
+                  });
                 })
           ],
         ),
