@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'components/settings_drawer.dart';
+import 'widgets/settings_drawer.dart';
 import 'db/database_manager.dart';
 import 'db/journal_entry_dto.dart';
 
@@ -15,7 +15,6 @@ class JournalApp extends StatefulWidget {
 
   void dbInit() async {
 
-    await DatabaseManager.initialize();
     var dbManager = DatabaseManager.getInstance();
     for (var i = 0; i < 5; i++) {
       JournalEntryDTO dto = JournalEntryDTO();
@@ -24,6 +23,7 @@ class JournalApp extends StatefulWidget {
       dto.rating = 4;
       dto.body = 'Some body text for item $i';
       dbManager.saveJournalEntry(dto: dto);
+      print('Saved dummy entry $i}');
     }
 
   }
@@ -56,7 +56,7 @@ class _JournalAppState extends State<JournalApp> {
           },
         ),
           appBar: AppBar(
-            title: Text('Journal Entries'),
+            title: Text('Journal Entries',),
             actions: [
               Builder(
                 builder: (context) => IconButton(

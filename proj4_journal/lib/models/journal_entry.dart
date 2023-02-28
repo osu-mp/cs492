@@ -1,12 +1,12 @@
 
 class JournalEntry {
-  final int id;
   final String title;
   final String body;
   final int rating;
   final DateTime dateTime;
+  // final String dateTime;
 
-  JournalEntry({required this.id,
+  JournalEntry({
     required this.title,
     required this.body,
     required this.rating,
