@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/settings_drawer.dart';
+import 'db/database_manager.dart';
+import 'db/journal_entry_dto.dart';
 
 const DARK_MODE_KEY = 'DarkModeEnabled';
 
 class JournalApp extends StatefulWidget {
   final SharedPreferences preferences;
 
-  const JournalApp({Key? key, required this.preferences}) : super(key: key);
+  JournalApp({Key? key, required this.preferences}) : super(key: key){
+    dbInit();
+  }
+
+  void dbInit() async {
+
+    await DatabaseManager.initialize();
+    var dbManager = DatabaseManager.getInstance();
+    for (var i = 0; i < 5; i++) {
+      JournalEntryDTO dto = JournalEntryDTO();
+      dto.title = 'Title $i';
+      dto.dateTime = DateTime.now();
+      dto.rating = 4;
+      dto.body = 'Some body text for item $i';
+      dbManager.saveJournalEntry(dto: dto);
+    }
+
+  }
+
 
   static final routes = {
     // SettingsDrawer.routeName: (context) => SettingsDrawer(),
