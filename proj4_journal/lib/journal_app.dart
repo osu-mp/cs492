@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/settings_drawer.dart';
-import 'constants.dart';
+
+const DARK_MODE_KEY = 'DarkModeEnabled';
 
 class JournalApp extends StatefulWidget {
   final SharedPreferences preferences;
-  // final Function(bool) darkModeChanged;
 
-  JournalApp({Key? key, required this.preferences}) : super(key: key);
+  const JournalApp({Key? key, required this.preferences}) : super(key: key);
 
   static final routes = {
     // SettingsDrawer.routeName: (context) => SettingsDrawer(),
@@ -22,19 +22,18 @@ class _JournalAppState extends State<JournalApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Adaptive Layouts',
       // routes: JournalApp.routes,
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(
         endDrawer: SettingsDrawer(
-            preferences: widget.preferences,
-            darkModeChanged: () {
+            initValue: darkMode,
+            darkModeToggle: (bool value){
               setState(() {
-                bool a = false;
+                widget.preferences.setBool(DARK_MODE_KEY, value);
               });
-            },
+          },
         ),
           appBar: AppBar(
             title: Text('Journal Entries'),
@@ -51,22 +50,9 @@ class _JournalAppState extends State<JournalApp> {
           ),
 
           body:
-        // Container(
-        // //constraints: BoxConstraints(maxHeight: 300, maxWidth: 400, minWidth: 400),
-        // child: LayoutBuilder(builder: (context, constraints){
-        //   return constraints.maxWidth < 500 ? VerticalLayout() : HorizontalLayout();
-        // }),
-        // ),
-        //AdaptiveWidget(),
         Text('Blah')
       ),
     );
-  }
-
-  void update() {
-    setState(() {
-      var a = 1;
-    });
   }
 }
 
