@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 class JournalEntry {
+  late final int id;
   final String title;
   final String body;
   final int rating;
@@ -12,7 +13,9 @@ class JournalEntry {
     required this.title,
     required this.body,
     required this.rating,
-    required this.dateTime});
+    required this.dateTime,
+    this.id = 0,
+  });
 
 
   // String toString() =>

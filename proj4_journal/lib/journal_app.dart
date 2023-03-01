@@ -7,7 +7,8 @@ import 'db/database_manager.dart';
 import 'db/journal_entry_dto.dart';
 import 'widgets/journal_scaffold.dart';
 import 'models/journal_entry.dart';
-import '../screens/journal_entry_list.dart';
+import 'screens/journal_entry_list.dart';
+import 'screens/single_journal_entry.dart';
 
 const DARK_MODE_KEY = 'DarkModeEnabled';
 
@@ -22,11 +23,11 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    for (var i = 0; i < 18; i++) {
+    for (var i = 0; i < 5; i++) {
       JournalEntryDTO dto = JournalEntryDTO();
       dto.title = 'Title $i';
       dto.date = DateTime.now().toString();
-      dto.rating = 4;
+      dto.rating = i % 5;
       dto.body = 'Some body text for item $i';
       dbManager.saveJournalEntry(dto: dto);
       print('Saved dummy entry $i with timestamp of ${dto.date}');
@@ -36,27 +37,38 @@ class JournalApp extends StatefulWidget {
     print('Count of entries ${entries.length}');
   }
 
-
-  final routes = {
-    // SettingsDrawer.routeName: (context) => SettingsDrawer(),
-    JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: (JournalEntryDTO dto){},)
-    // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
-    // WelcomeScreen.routeName: (context) => WelcomeScreen(),
-  };
+  //
+  // final routes = {
+  //   // SettingsDrawer.routeName: (context) => SettingsDrawer(),
+  //   JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: (JournalEntryDTO dto){},),
+  //   // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
+  //   // WelcomeScreen.routeName: (context) => WelcomeScreen(),
+  //   SingleJournalEntry.routeName: (context) => SingleJournalEntry(),
+  // };
 
   @override
-  State<JournalApp> createState() => _JournalAppState();
+  State<JournalApp> createState() => JournalAppState();
 }
 
-class _JournalAppState extends State<JournalApp> {
+class JournalAppState extends State<JournalApp> {
   bool get darkMode => widget.preferences.getBool(DARK_MODE_KEY) ?? false;
   List<JournalEntry> records = [];
+  int selectedIndex = 0;
 
   String title = 'Welcome';
 
   void initState(){
     print("INIT OF JOURNAL APP");
     getJournalEntries();
+  }
+
+  JournalEntry getSelectedEntry(){
+    return records.where((i) => i.id == selectedIndex).first;
+    return records[selectedIndex];
+  }
+
+  void setSelectedEntry(int id){
+    selectedIndex = id;
   }
 
   void getJournalEntries() async {
@@ -90,6 +102,7 @@ class _JournalAppState extends State<JournalApp> {
       routes: {
         JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: saveEntry,),
         JournalEntryList.routeName: (context) => JournalEntryList(records: records),
+        SingleJournalEntry.routeName: (context) => SingleJournalEntry(),
       },
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(

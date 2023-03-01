@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../models/journal_entry.dart';
+import 'single_journal_entry.dart';
+import '../journal_app.dart';
+import '../styles.dart';
 
 class JournalEntryList extends StatefulWidget{
   static  final String routeName = 'JOURNAL_LIST';
 
   final List<JournalEntry> records;
 
-  JournalEntryList({Key? key, required List<JournalEntry> this.records}) : super(key: key){}
+  JournalEntryList({Key? key, required List<JournalEntry> this.records}) : super(key: key);
 
   @override
   State<JournalEntryList> createState() => _JournalEntryListState();
@@ -26,13 +29,15 @@ class _JournalEntryListState extends State<JournalEntryList> {
             children: widget.records.map((item) {
               return ListTile(
                 title: Text(item.title,textAlign: TextAlign.start,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: Styles.textHeader),
                 subtitle: Text(item.dateTimeStr,
-                      style: TextStyle(fontSize: 14)
-
-                  ),
+                      style: Styles.textSubHeading),
                 onTap: (){
                   print('show ${item.title}');
+                  JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
+                  // print('entry $entry}');
+                  state!.setSelectedEntry(item.id);
+                  Navigator.of(context).pushNamed(SingleJournalEntry.routeName);
 
               },
               );
