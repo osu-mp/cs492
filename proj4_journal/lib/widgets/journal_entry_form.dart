@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proj4_journal/db/journal_entry_dto.dart';
-
+import '../db/database_manager.dart';
 
 class JournalEntryForm extends StatefulWidget{
 
@@ -13,6 +13,9 @@ class JournalEntryForm extends StatefulWidget{
 class _JournalEntryFormState extends State<JournalEntryForm> {
   final formKey = GlobalKey<FormState>();
   final journalEntryValues = JournalEntryDTO();
+  JournalEntryDTO _newEntry = JournalEntryDTO();
+
+  late final DatabaseManager dbManager = DatabaseManager.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,11 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
                   decoration: InputDecoration(
                     labelText: 'Title', border: OutlineInputBorder()),
                     onSaved: (value){
-                    // store value in object
+                      _newEntry.title = value!;
                     },
                     validator: (value){
                       if (value!.isEmpty){
-                        return 'Please entry a title';
+                        return 'Please enter a title';
                       }
                       return null;
                     },
@@ -46,17 +49,38 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
                   autofocus: true,
                   decoration: InputDecoration(
                       labelText: 'Body', border: OutlineInputBorder()),
+                  onSaved: (value){
+                    _newEntry.body = value!;
+                  },
+                  validator: (value){
+                    if (value!.isEmpty){
+                      return 'Please enter a description';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 10),
                 TextFormField(
                   autofocus: true,
                   decoration: InputDecoration(
                       labelText: 'Rating', border: OutlineInputBorder()),
+                  onSaved: (value){
+                    _newEntry.rating = int.parse(value!);
+                  },
+                  validator: (value){
+                    if ((value!.isEmpty) || (1 > int.parse(value!)) || (int.parse(value!) > 4)){
+                      print('You entered $value ');
+                      return 'Please enter a rating from 1 to 4';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(onPressed: (){
                   if (formKey.currentState!.validate()){
+                    _newEntry.date = DateTime.now().toString();
                     formKey.currentState!.save();
+                    dbManager.saveJournalEntry(dto: _newEntry);
                     Navigator.of(context).pop();
                   }
                   formKey.currentState!.save();

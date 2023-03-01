@@ -45,10 +45,12 @@ class DatabaseManager {
   }
 
   void saveJournalEntry({required JournalEntryDTO dto}){
+    print('Saving dto to db: $dto');
     db.transaction( (txn) async {
       await txn.rawInsert(SQL_INSERT,
         [dto.title, dto.body, dto.rating, dto.date.toString()]
       );
+      print('Saved dto to db: $dto');
     });
   }
 
