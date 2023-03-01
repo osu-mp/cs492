@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../db/database_manager.dart';
+import '../models/journal_entry.dart';
 
 class JournalScaffold extends StatefulWidget {
   final DatabaseManager dbManager;
@@ -14,6 +15,14 @@ class JournalScaffold extends StatefulWidget {
 
 class _JournalScaffoldState extends State<JournalScaffold> {
 
+  void initState(){
+    getJournalEntries();
+  }
+
+  void getJournalEntries() async {
+    List<JournalEntry> records = await widget.dbManager.journalEntries();
+    print('Total entries found ${records.length}');
+  }
 
   @override
   Widget build(BuildContext context) {

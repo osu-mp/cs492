@@ -19,18 +19,18 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    // for (var i = 0; i < 5; i++) {
-    //   JournalEntryDTO dto = JournalEntryDTO();
-    //   dto.title = 'Title $i';
-    //   dto.dateTime = DateTime.now();
-    //   dto.rating = 4;
-    //   dto.body = 'Some body text for item $i';
-    //   dbManager.saveJournalEntry(dto: dto);
-    //   print('Saved dummy entry $i}');
-    // }
+    for (var i = 0; i < 5; i++) {
+      JournalEntryDTO dto = JournalEntryDTO();
+      dto.title = 'Title $i';
+      dto.date = DateTime.now().toString();
+      dto.rating = 4;
+      dto.body = 'Some body text for item $i';
+      dbManager.saveJournalEntry(dto: dto);
+      print('Saved dummy entry $i with timestamp of ${dto.date}');
+    }
 
-    var entries = await dbManager.journalEntries();
-    print('Count of entries ${entries.length}');
+    // var entries = await dbManager.journalEntries();
+    // print('Count of entries ${entries.length}');
   }
 
 

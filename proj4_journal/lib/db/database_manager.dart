@@ -47,7 +47,7 @@ class DatabaseManager {
   void saveJournalEntry({required JournalEntryDTO dto}){
     db.transaction( (txn) async {
       await txn.rawInsert(SQL_INSERT,
-        [dto.title, dto.body, dto.rating, dto.dateTime.toString()]
+        [dto.title, dto.body, dto.rating, dto.date.toString()]
       );
     });
   }
@@ -55,11 +55,13 @@ class DatabaseManager {
   Future<List<JournalEntry>> journalEntries() async {
       final journalRecords = await db.rawQuery(SQL_SELECT);
       final  journalEntries = journalRecords.map( (record) {
+        print(record);
+        print('Date time ${record['dateTime']}');
         return JournalEntry(
           title: record['title'].toString(),
           body: record['body'].toString(),
           rating: int.parse(record['rating'].toString()),
-          dateTime: DateTime.parse(record['dateTime'].toString()));
+          dateTime: DateTime.parse(record['date'].toString()));
       }).toList();
 
       return journalEntries;
