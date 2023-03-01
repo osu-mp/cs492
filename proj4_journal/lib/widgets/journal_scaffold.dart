@@ -15,25 +15,26 @@ class JournalScaffold extends StatefulWidget {
 }
 
 class _JournalScaffoldState extends State<JournalScaffold> {
-  List<JournalEntry> records = [];
 
   void initState(){
-  //  getJournalEntries();
+    getJournalEntries();
   }
 
-  // void getJournalEntries() async {
-  //   records = await widget.dbManager.journalEntries();
-  //   setState(() {
-  //     print('Total entries found ${records.length}');
-  //   });
-  // }
+  void getJournalEntries() async {
+    widget.records = await widget.records;
+    setState(() {
+      print('Total entries found ${widget.records.length}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (records.length == 0){
+    print('BUILD of JOURNAL SCAFFOLD');
+    print('Total entries found ${widget.records.length}');
+    if (widget.records.length == 0){
       return  WelcomeScreen();
     }
     // return
-    return Text('journal app with ${records.length} entries');
+    return Text('journal app with ${widget.records.length} entries');
   }
 }

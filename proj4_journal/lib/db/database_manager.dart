@@ -44,7 +44,7 @@ class DatabaseManager {
     await db.execute(sql);
   }
 
-  void saveJournalEntry({required JournalEntryDTO dto}){
+  void saveJournalEntry({required JournalEntryDTO dto})  {
     print('Saving dto to db: $dto');
     db.transaction( (txn) async {
       await txn.rawInsert(SQL_INSERT,

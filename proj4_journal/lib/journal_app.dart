@@ -21,26 +21,26 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    // for (var i = 0; i < 5; i++) {
-    //   JournalEntryDTO dto = JournalEntryDTO();
-    //   dto.title = 'Title $i';
-    //   dto.date = DateTime.now().toString();
-    //   dto.rating = 4;
-    //   dto.body = 'Some body text for item $i';
-    //   dbManager.saveJournalEntry(dto: dto);
-    //   print('Saved dummy entry $i with timestamp of ${dto.date}');
-    // }
+    for (var i = 0; i < 5; i++) {
+      JournalEntryDTO dto = JournalEntryDTO();
+      dto.title = 'Title $i';
+      dto.date = DateTime.now().toString();
+      dto.rating = 4;
+      dto.body = 'Some body text for item $i';
+      dbManager.saveJournalEntry(dto: dto);
+      print('Saved dummy entry $i with timestamp of ${dto.date}');
+    }
 
-    // var entries = await dbManager.journalEntries();
-    // print('Count of entries ${entries.length}');
+    var entries = await dbManager.journalEntries();
+    print('Count of entries ${entries.length}');
   }
 
 
-  static final routes = {
+  final routes = {
     // SettingsDrawer.routeName: (context) => SettingsDrawer(),
-    JournalEntryForm.routeName: (context) => JournalEntryForm(),
+    JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: (JournalEntryDTO dto){},)
     // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
-    WelcomeScreen.routeName: (context) => WelcomeScreen(),
+    // WelcomeScreen.routeName: (context) => WelcomeScreen(),
   };
 
   @override
@@ -60,12 +60,25 @@ class _JournalAppState extends State<JournalApp> {
 
   void getJournalEntries() async {
     records = await widget.dbManager.journalEntries();
-    if (records.length > 0){
-      title = 'Journal';
-    }
+
     setState(() {
+      if (records.length > 0){
+        title = 'Journal';
+        // Navigator.of(context).pop();
+        // Navigator.of(context).pushNamed(routeName)
+      }
       print('Total entries found ${records.length}');
     });
+  }
+
+  void saveEntry(JournalEntryDTO dto) async {
+    print("SAVING DTO: $dto");
+    widget.dbManager.saveJournalEntry(dto: dto);
+    getJournalEntries();
+    // setState(() {
+    //   print("SAVED");
+    // });
+
   }
 
 
@@ -73,7 +86,9 @@ class _JournalAppState extends State<JournalApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Journal App',
-      routes: JournalApp.routes,
+      routes: {
+        JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: saveEntry,)
+      },
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(
         endDrawer: SettingsDrawer(
@@ -102,7 +117,7 @@ class _JournalAppState extends State<JournalApp> {
           body: JournalScaffold(records: records),
 
 
-        floatingActionButton: AddEntryButton(), // This trailing comma makes auto-formatting nicer for build methods.
+        floatingActionButton: AddEntryButton(saveEntryFunc: saveEntry,), // This trailing comma makes auto-formatting nicer for build methods.
       ),
       // initialRoute:  JournalScaffold.routeName,
     );
@@ -110,11 +125,16 @@ class _JournalAppState extends State<JournalApp> {
 }
 
 class AddEntryButton extends StatelessWidget{
+  late Function(JournalEntryDTO dto) saveEntryFunc;
+
+  AddEntryButton({Key? key, required this.saveEntryFunc}) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: (){
-        Navigator.of(context).pushNamed(JournalEntryForm.routeName);
+        Navigator.of(context).pushNamed(JournalEntryForm.routeName, arguments: saveEntryFunc);
 
       },
       tooltip: 'Add New Journal Entry',

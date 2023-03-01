@@ -5,6 +5,9 @@ import '../db/database_manager.dart';
 class JournalEntryForm extends StatefulWidget{
 
   static const String routeName = 'JOURNAL_ENTRY_FORM';
+  late Function(JournalEntryDTO dto) saveEntryFunc;
+
+  JournalEntryForm({Key? key, required this.saveEntryFunc}) : super(key: key);
 
   @override
   State<JournalEntryForm> createState() => _JournalEntryFormState();
@@ -15,7 +18,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
   final journalEntryValues = JournalEntryDTO();
   JournalEntryDTO _newEntry = JournalEntryDTO();
 
-  late final DatabaseManager dbManager = DatabaseManager.getInstance();
+  // late final DatabaseManager dbManager = DatabaseManager.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,8 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
                   if (formKey.currentState!.validate()){
                     _newEntry.date = DateTime.now().toString();
                     formKey.currentState!.save();
-                    dbManager.saveJournalEntry(dto: _newEntry);
+                    // dbManager.saveJournalEntry(dto: _newEntry);
+                    widget.saveEntryFunc(_newEntry);
                     Navigator.of(context).pop();
                   }
                   formKey.currentState!.save();
