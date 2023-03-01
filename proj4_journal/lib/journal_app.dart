@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:proj4_journal/screens/welcome.dart';
 import 'package:proj4_journal/widgets/journal_entry_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/settings_drawer.dart';
 import 'db/database_manager.dart';
 import 'db/journal_entry_dto.dart';
 import 'widgets/journal_scaffold.dart';
+import 'models/journal_entry.dart';
 
 const DARK_MODE_KEY = 'DarkModeEnabled';
 
@@ -19,15 +21,15 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    for (var i = 0; i < 5; i++) {
-      JournalEntryDTO dto = JournalEntryDTO();
-      dto.title = 'Title $i';
-      dto.date = DateTime.now().toString();
-      dto.rating = 4;
-      dto.body = 'Some body text for item $i';
-      dbManager.saveJournalEntry(dto: dto);
-      print('Saved dummy entry $i with timestamp of ${dto.date}');
-    }
+    // for (var i = 0; i < 5; i++) {
+    //   JournalEntryDTO dto = JournalEntryDTO();
+    //   dto.title = 'Title $i';
+    //   dto.date = DateTime.now().toString();
+    //   dto.rating = 4;
+    //   dto.body = 'Some body text for item $i';
+    //   dbManager.saveJournalEntry(dto: dto);
+    //   print('Saved dummy entry $i with timestamp of ${dto.date}');
+    // }
 
     // var entries = await dbManager.journalEntries();
     // print('Count of entries ${entries.length}');
@@ -38,6 +40,7 @@ class JournalApp extends StatefulWidget {
     // SettingsDrawer.routeName: (context) => SettingsDrawer(),
     JournalEntryForm.routeName: (context) => JournalEntryForm(),
     // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
+    WelcomeScreen.routeName: (context) => WelcomeScreen(),
   };
 
   @override
@@ -46,11 +49,30 @@ class JournalApp extends StatefulWidget {
 
 class _JournalAppState extends State<JournalApp> {
   bool get darkMode => widget.preferences.getBool(DARK_MODE_KEY) ?? false;
+  List<JournalEntry> records = [];
+
+  String title = 'Welcome';
+
+  void initState(){
+    print("INIT OF JOURNAL APP");
+    getJournalEntries();
+  }
+
+  void getJournalEntries() async {
+    records = await widget.dbManager.journalEntries();
+    if (records.length > 0){
+      title = 'Journal';
+    }
+    setState(() {
+      print('Total entries found ${records.length}');
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Adaptive Layouts',
+      title: 'Journal App',
       routes: JournalApp.routes,
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(
@@ -63,7 +85,8 @@ class _JournalAppState extends State<JournalApp> {
           },
         ),
           appBar: AppBar(
-            title: Text('Journal Entries',),
+            title: Text(title),
+            centerTitle: true,
             actions: [
               Builder(
                 builder: (context) => IconButton(
@@ -76,7 +99,7 @@ class _JournalAppState extends State<JournalApp> {
             ],
           ),
 
-          body: JournalScaffold(dbManager: widget.dbManager),
+          body: JournalScaffold(records: records),
 
 
         floatingActionButton: AddEntryButton(), // This trailing comma makes auto-formatting nicer for build methods.
@@ -92,6 +115,7 @@ class AddEntryButton extends StatelessWidget{
     return FloatingActionButton(
       onPressed: (){
         Navigator.of(context).pushNamed(JournalEntryForm.routeName);
+
       },
       tooltip: 'Add New Journal Entry',
       child: const Icon(Icons.add),
