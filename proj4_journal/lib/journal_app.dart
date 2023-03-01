@@ -7,6 +7,7 @@ import 'db/database_manager.dart';
 import 'db/journal_entry_dto.dart';
 import 'widgets/journal_scaffold.dart';
 import 'models/journal_entry.dart';
+import '../screens/journal_entry_list.dart';
 
 const DARK_MODE_KEY = 'DarkModeEnabled';
 
@@ -21,7 +22,7 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 18; i++) {
       JournalEntryDTO dto = JournalEntryDTO();
       dto.title = 'Title $i';
       dto.date = DateTime.now().toString();
@@ -87,7 +88,8 @@ class _JournalAppState extends State<JournalApp> {
     return MaterialApp(
       title: 'Journal App',
       routes: {
-        JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: saveEntry,)
+        JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: saveEntry,),
+        JournalEntryList.routeName: (context) => JournalEntryList(records: records),
       },
       theme: darkMode ? ThemeData.dark(): ThemeData(),
       home: Scaffold(

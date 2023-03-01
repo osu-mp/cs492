@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proj4_journal/screens/welcome.dart';
-import '../db/database_manager.dart';
 import '../models/journal_entry.dart';
+import '../screens/journal_entry_list.dart';
 
 class JournalScaffold extends StatefulWidget {
   // final DatabaseManager dbManager;
@@ -35,6 +35,6 @@ class _JournalScaffoldState extends State<JournalScaffold> {
       return  WelcomeScreen();
     }
     // return
-    return Text('journal app with ${widget.records.length} entries');
+    return JournalEntryList(records: widget.records);
   }
 }
