@@ -6,10 +6,14 @@ import '../styles.dart';
 
 class SingleJournalEntry extends StatefulWidget {
   static const String routeName = 'SingleJournalEntry';
-  //JournalEntry entryAA;
+  late final JournalEntry entry;
+  bool includeScaffold = true;
 
   SingleJournalEntry({Key? key}) : super(key: key);
+  SingleJournalEntry.Entry({Key? key, required this.entry}): super(key: key){
 
+    includeScaffold = false;
+  }
   @override
   State<SingleJournalEntry> createState() => _SingleJournalEntryState();
 }
@@ -20,10 +24,17 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
   @override
   void initState(){
     super.initState();
-    // final JournalEntry entry = ModalRoute.of(context).settings?.arguments;
-    JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
-    // print('entry $entry}');
-    entry = state!.getSelectedEntry();
+
+    if (widget.includeScaffold) {
+      // final JournalEntry entry = ModalRoute.of(context).settings?.arguments;
+      JournalAppState? state = context.findAncestorStateOfType<
+          JournalAppState>();
+      // print('entry $entry}');
+      entry = state!.getSelectedEntry();
+    } else {
+      entry = widget.entry;
+    }
+
 
   }
 
@@ -33,23 +44,30 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
     for (int i = 0; i < entry.rating; i++) {
       rating.add(Icon(Icons.star));
     }
+    if (!widget.includeScaffold){
+      return mainEntryWidget(rating);
+    }
     return Scaffold(
       appBar: AppBar(title: Text(entry.dateTimeStr),),
-      body: Padding(
-      padding: EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(entry.title, style: Styles.textHeader, textAlign: TextAlign.start,),
-              Padding(padding: EdgeInsets.all(3)),
-              Row(children: rating),
-              Padding(padding: EdgeInsets.all(3)),
-              Text(entry.body, style: Styles.textDefaultSmall),
-            ],
-          ),
+      body: mainEntryWidget(rating),
+    );
+  }
+
+  Padding mainEntryWidget(List<Icon> rating) {
+    return Padding(
+    padding: EdgeInsets.all(8),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(entry.title, style: Styles.textHeader, textAlign: TextAlign.start,),
+            Padding(padding: EdgeInsets.all(3)),
+            Row(children: rating),
+            Padding(padding: EdgeInsets.all(3)),
+            Text(entry.body, style: Styles.textDefaultSmall),
+          ],
         ),
       ),
     );

@@ -16,8 +16,50 @@ class JournalEntryList extends StatefulWidget{
 }
 
 class _JournalEntryListState extends State<JournalEntryList> {
+  bool _landscape = false;
+  JournalEntry? _landscapeEntry;
+
+  @override
+  void initState(){
+    // JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
+     //_landscapeEntry = widget.records[0];
+  }
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).orientation == Orientation.landscape){
+      _landscape = true;
+      // JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
+      // JournalEntry entry = widget.records[0];
+      // if (state != null && state!.records.isNotEmpty){
+      //   //entry = Placeholder();state!.getSelectedEntry();
+      //   _landscapeEntry = widget.records[0];
+      // }
+      // print('ENTRY $entry');
+      Widget rightPane = Text('Select an entry from the left');
+      if (_landscapeEntry != null){
+        rightPane = Expanded(child:
+        SizedBox(child: SingleJournalEntry.Entry(entry: _landscapeEntry!),));
+      }
+
+
+
+    return Row(
+        children: [
+          Expanded(
+              child:
+              SizedBox(
+                //height: 200,
+                  child: buildJournalList(context)),),
+
+         rightPane,
+        ],
+      );
+    }
+    else _landscape = false;
+    return buildJournalList(context);
+  }
+
+  Widget buildJournalList(BuildContext context) {
     return ListView(
 
         children: [Container(
@@ -37,8 +79,19 @@ class _JournalEntryListState extends State<JournalEntryList> {
                   JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
                   // print('entry $entry}');
                   state!.setSelectedEntry(item.id);
-                  Navigator.of(context).pushNamed(SingleJournalEntry.routeName);
 
+                  if (_landscape){
+                    JournalAppState? state = context.findAncestorStateOfType<JournalAppState>();
+
+                    _landscapeEntry = state!.getSelectedEntry();
+                    setState(() {
+
+                    });
+                  }
+                  else {
+                    Navigator.of(context).pushNamed(SingleJournalEntry
+                        .routeName);
+                  }
               },
               );
               // return Column(
