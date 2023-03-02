@@ -23,12 +23,11 @@ class DatabaseManager {
   }
 
   static Future initialize() async {
-    print('Deleting database: $DATABASE_FILENAME}');
-    await deleteDatabase(DATABASE_FILENAME);
+    // print('Deleting database: $DATABASE_FILENAME}');
+    // await deleteDatabase(DATABASE_FILENAME);
 
     // get schema
     String dbSchema = await rootBundle.loadString(SCHEMA_FILE_PATH);
-    print('Creating DB with schema $dbSchema');
 
     final db = await openDatabase(DATABASE_FILENAME,
         version: 1,
@@ -45,20 +44,16 @@ class DatabaseManager {
   }
 
   void saveJournalEntry({required JournalEntryDTO dto})  {
-    print('Saving dto to db: $dto');
     db.transaction( (txn) async {
       await txn.rawInsert(SQL_INSERT,
         [dto.title, dto.body, dto.rating, dto.date.toString()]
       );
-      print('Saved dto to db: $dto');
     });
   }
 
   Future<List<JournalEntry>> journalEntries() async {
       final journalRecords = await db.rawQuery(SQL_SELECT);
       final  journalEntries = journalRecords.map( (record) {
-        print(record);
-        print('Date time ${record['dateTime']}');
         return JournalEntry(
           title: record['title'].toString(),
           body: record['body'].toString(),
@@ -70,10 +65,4 @@ class DatabaseManager {
 
       return journalEntries;
   }
-}
-
-// import 'database_manager.dart';
-void dummy_main() async {
-  await DatabaseManager.initialize();
-  final DatabaseManager dbManager = DatabaseManager.getInstance();
 }

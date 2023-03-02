@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 
 class Styles {
   static const _textSizeDefault = 36.0;
-  // static final String _fontNameDefault = 'Roboto';
 
-  // static final textHeadline = TextStyle(
-  //   fontFamily: 'EBGaramond',
-  //   fontSize: 36,
-  // );
-  //
   static final textHeader = TextStyle(
     // fontFamily: _fontNameDefault,
     fontSize: 18,
@@ -49,5 +43,5 @@ class Styles {
 Divider defaultDivider(BuildContext context) {
   return Divider(
     color: Theme.of(context).primaryColor,
-    height: 20, thickness: 4, indent: 40, endIndent: 40);
+    height: 20, thickness: 4, indent: 8, endIndent: 8);
 }

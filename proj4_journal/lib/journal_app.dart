@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proj4_journal/screens/welcome.dart';
 import 'package:proj4_journal/widgets/journal_entry_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/settings_drawer.dart';
@@ -23,28 +22,17 @@ class JournalApp extends StatefulWidget {
   void dbInit() async {
 
     dbManager = DatabaseManager.getInstance();
-    for (var i = 0; i < 5; i++) {
-      JournalEntryDTO dto = JournalEntryDTO();
-      dto.title = 'Title $i';
-      dto.date = DateTime.now().toString();
-      dto.rating = i % 5;
-      dto.body = 'Some body text for item $i';
-      dbManager.saveJournalEntry(dto: dto);
-      print('Saved dummy entry $i with timestamp of ${dto.date}');
-    }
+    // for (var i = 0; i < 5; i++) {
+    //   JournalEntryDTO dto = JournalEntryDTO();
+    //   dto.title = 'Title $i';
+    //   dto.date = DateTime.now().toString();
+    //   dto.rating = i % 5;
+    //   dto.body = 'Some body text for item $i';
+    //   dbManager.saveJournalEntry(dto: dto);
+    //   print('Saved dummy entry $i with timestamp of ${dto.date}');
+    // }
 
-    var entries = await dbManager.journalEntries();
-    print('Count of entries ${entries.length}');
   }
-
-  //
-  // final routes = {
-  //   // SettingsDrawer.routeName: (context) => SettingsDrawer(),
-  //   JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: (JournalEntryDTO dto){},),
-  //   // JournalScaffold.routeName: (context) => JournalScaffold(dbManager: dbManager);
-  //   // WelcomeScreen.routeName: (context) => WelcomeScreen(),
-  //   SingleJournalEntry.routeName: (context) => SingleJournalEntry(),
-  // };
 
   @override
   State<JournalApp> createState() => JournalAppState();
@@ -57,17 +45,17 @@ class JournalAppState extends State<JournalApp> {
 
   String title = 'Welcome';
 
-  void initState(){
-    print("INIT OF JOURNAL APP");
+  void initState() {
     getJournalEntries();
   }
 
-  JournalEntry getSelectedEntry(){
-    return records.where((i) => i.id == selectedIndex).first;
-    return records[selectedIndex];
+  JournalEntry getSelectedEntry() {
+    return records
+        .where((i) => i.id == selectedIndex)
+        .first;
   }
 
-  void setSelectedEntry(int id){
+  void setSelectedEntry(int id) {
     selectedIndex = id;
   }
 
@@ -75,64 +63,58 @@ class JournalAppState extends State<JournalApp> {
     records = await widget.dbManager.journalEntries();
 
     setState(() {
-      if (records.length > 0){
+      if (records.length > 0) {
         title = 'Journal';
-        // Navigator.of(context).pop();
-        // Navigator.of(context).pushNamed(routeName)
       }
-      print('Total entries found ${records.length}');
     });
   }
 
   void saveEntry(JournalEntryDTO dto) async {
-    print("SAVING DTO: $dto");
     widget.dbManager.saveJournalEntry(dto: dto);
     getJournalEntries();
-    // setState(() {
-    //   print("SAVED");
-    // });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Journal App',
       routes: {
-        JournalEntryForm.routeName: (context) => JournalEntryForm(saveEntryFunc: saveEntry,),
-        JournalEntryList.routeName: (context) => JournalEntryList(records: records),
+        JournalEntryForm.routeName: (context) =>
+            JournalEntryForm(saveEntryFunc: saveEntry,),
+        JournalEntryList.routeName: (context) =>
+            JournalEntryList(records: records),
         SingleJournalEntry.routeName: (context) => SingleJournalEntry(),
       },
-      theme: darkMode ? ThemeData.dark(): ThemeData(),
+      theme: darkMode ? ThemeData.dark() : ThemeData(),
       home: Scaffold(
         endDrawer: SettingsDrawer(
-            initValue: darkMode,
-            darkModeToggle: (bool value){
-              setState(() {
-                widget.preferences.setBool(DARK_MODE_KEY, value);
-              });
+          initValue: darkMode,
+          darkModeToggle: (bool value) {
+            setState(() {
+              widget.preferences.setBool(DARK_MODE_KEY, value);
+            });
           },
         ),
-          appBar: AppBar(
-            title: Text(title),
-            centerTitle: true,
-            actions: [
-              Builder(
-                builder: (context) => IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  // onPressed: () => Navigator.of(context).pushNamed('settings'),
-                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                ),
-              ),
-            ],
-          ),
-
-          body: JournalScaffold(records: records),
-
-
-        floatingActionButton: AddEntryButton(saveEntryFunc: saveEntry,), // This trailing comma makes auto-formatting nicer for build methods.
+        appBar: AppBar(
+          title: Text(title),
+          centerTitle: true,
+          actions: [
+            Builder(
+              builder: (context) =>
+                  IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    // onPressed: () => Navigator.of(context).pushNamed('settings'),
+                    tooltip: MaterialLocalizations
+                        .of(context)
+                        .openAppDrawerTooltip,
+                  ),
+            ),
+          ],
+        ),
+        body: JournalScaffold(records: records),
+        floatingActionButton: AddEntryButton(
+          saveEntryFunc: saveEntry,), // This trailing comma makes auto-formatting nicer for build methods.
       ),
       // initialRoute:  JournalScaffold.routeName,
     );
@@ -140,22 +122,20 @@ class JournalAppState extends State<JournalApp> {
 }
 
 class AddEntryButton extends StatelessWidget{
+
   late Function(JournalEntryDTO dto) saveEntryFunc;
 
   AddEntryButton({Key? key, required this.saveEntryFunc}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: (){
         Navigator.of(context).pushNamed(JournalEntryForm.routeName, arguments: saveEntryFunc);
-
       },
       tooltip: 'Add New Journal Entry',
       child: const Icon(Icons.add),
     );
   }
-
 }
 

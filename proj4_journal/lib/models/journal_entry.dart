@@ -14,10 +14,7 @@ class JournalEntry {
     required this.body,
     required this.rating,
     required this.dateTime,
-    this.id = 0,
+    this.id = -1,
   });
 
-
-  // String toString() =>
-  //     'Title $title, Body $body, Rating $rating, Date: $dateTime';
 }

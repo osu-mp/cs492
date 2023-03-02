@@ -4,7 +4,7 @@ import '../models/journal_entry.dart';
 import '../screens/journal_entry_list.dart';
 
 class JournalScaffold extends StatefulWidget {
-  // final DatabaseManager dbManager;
+
   static final String routeName = 'JOURNAL_SCAFFOLD';
   List<JournalEntry> records;
 
@@ -22,19 +22,14 @@ class _JournalScaffoldState extends State<JournalScaffold> {
 
   void getJournalEntries() async {
     widget.records = await widget.records;
-    setState(() {
-      print('Total entries found ${widget.records.length}');
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD of JOURNAL SCAFFOLD');
-    print('Total entries found ${widget.records.length}');
     if (widget.records.length == 0){
       return  WelcomeScreen();
     }
-    // return
     return JournalEntryList(records: widget.records);
   }
 }

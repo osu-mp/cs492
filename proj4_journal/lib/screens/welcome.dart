@@ -20,7 +20,5 @@ class WelcomeScreen extends StatelessWidget {
         ),
       ),
     );
-    return Text('Journal Empty');
   }
-
 }

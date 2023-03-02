@@ -40,7 +40,7 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
 
   @override
   Widget build(BuildContext context) {
-    List<Icon> rating = [];
+    List<Widget> rating = [Text('Rating ', style: Styles.textSubHeading,)];
     for (int i = 0; i < entry.rating; i++) {
       rating.add(Icon(Icons.star));
     }
@@ -49,11 +49,16 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
     }
     return Scaffold(
       appBar: AppBar(title: Text(entry.dateTimeStr),),
-      body: mainEntryWidget(rating),
+      body: InkWell(child: mainEntryWidget(rating),
+
+        onTap: (){
+          Navigator.of(context).pop();
+        },
+    )
     );
   }
 
-  Padding mainEntryWidget(List<Icon> rating) {
+  Padding mainEntryWidget(List<Widget> rating) {
     return Padding(
     padding: EdgeInsets.all(8),
       child: Align(
@@ -64,12 +69,15 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
           children: [
             Text(entry.title, style: Styles.textHeader, textAlign: TextAlign.start,),
             Padding(padding: EdgeInsets.all(3)),
+            defaultDivider(context),
             Row(children: rating),
             Padding(padding: EdgeInsets.all(3)),
+            defaultDivider(context),
             Text(entry.body, style: Styles.textDefaultSmall),
           ],
         ),
       ),
+      
     );
   }
 }
