@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:proj4_journal/db/journal_entry_dto.dart';
 import '../models/journal_entry.dart';
 import '../journal_app.dart';
 import '../styles.dart';
@@ -30,15 +29,14 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
 
   @override
   Widget build(BuildContext context) {
-    Row ratingRow = Row();
     List<Icon> rating = [];
     for (int i = 0; i < entry.rating; i++) {
       rating.add(Icon(Icons.star));
     }
     return Scaffold(
       appBar: AppBar(title: Text(entry.dateTimeStr),),
-      body: Container(
-
+      body: Padding(
+      padding: EdgeInsets.all(8),
         child: Align(
           alignment: Alignment.topLeft,
           child: Column(
@@ -46,7 +44,9 @@ class _SingleJournalEntryState extends State<SingleJournalEntry> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(entry.title, style: Styles.textHeader, textAlign: TextAlign.start,),
+              Padding(padding: EdgeInsets.all(3)),
               Row(children: rating),
+              Padding(padding: EdgeInsets.all(3)),
               Text(entry.body, style: Styles.textDefaultSmall),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proj4_journal/db/journal_entry_dto.dart';
 import '../db/database_manager.dart';
-
+import '../widgets/dropdown_rating_form_field.dart';
 class JournalEntryForm extends StatefulWidget{
 
   static const String routeName = 'JOURNAL_ENTRY_FORM';
@@ -26,7 +26,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
         appBar: AppBar(
         title: Text('New Journal Entry',),
         ),
-      body: Padding(
+      body: SingleChildScrollView(
           padding: EdgeInsets.all(10),
           child: Form(
             key: formKey,
@@ -49,7 +49,8 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
                   ),
                 SizedBox(height: 10),
                 TextFormField(
-                  autofocus: true,
+                  minLines: 6,
+                  maxLines: null,
                   decoration: InputDecoration(
                       labelText: 'Body', border: OutlineInputBorder()),
                   onSaved: (value){
@@ -63,16 +64,15 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
                   },
                 ),
                 SizedBox(height: 10),
-                TextFormField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      labelText: 'Rating', border: OutlineInputBorder()),
+                DropdownRatingFormField(
+                  maxRating: 4,
+                  // decoration: InputDecoration(
+                  //     labelText: 'Rating', border: OutlineInputBorder()),
                   onSaved: (value){
-                    _newEntry.rating = int.parse(value!);
+                    _newEntry.rating = value;
                   },
                   validator: (value){
-                    if ((value!.isEmpty) || (1 > int.parse(value!)) || (int.parse(value!) > 4)){
-                      print('You entered $value ');
+                    if ((1 > value) || (value > 4)){
                       return 'Please enter a rating from 1 to 4';
                     }
                     return null;
