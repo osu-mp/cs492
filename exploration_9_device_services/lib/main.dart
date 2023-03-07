@@ -1,6 +1,8 @@
 import 'package:exploration_9_device_services/camera_screen.dart';
 import 'package:flutter/material.dart';
 import 'location_exploration_app.dart';
+import 'remote_data_screen.dart';
+import 'remote_data_builder_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,8 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // CameraScreen(),
-            ShareLocationScreen(),
-
+            // ShareLocationScreen(),
+            RemoteDataScreen(),
+            RemoteDataBuilderScreen(),
           ],
         ),
       ),
