@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:exploration_9_device_services/camera_screen.dart';
 import 'package:flutter/material.dart';
 import 'location_exploration_app.dart';
 import 'remote_data_screen.dart';
 import 'remote_data_builder_screen.dart';
+import 'entry_lists.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Exploration 9'),
     );
   }
 }
@@ -67,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return EntryLists(key: widget.key);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -101,8 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             // CameraScreen(),
             // ShareLocationScreen(),
-            RemoteDataScreen(),
-            RemoteDataBuilderScreen(),
+            //RemoteDataScreen(),
+            // RemoteDataBuilderScreen(),
+            EntryLists(key: widget.key),
           ],
         ),
       ),
