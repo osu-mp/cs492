@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'food_waste_post_test.dart';
 
 void main() {
-  runApp(const MyApp());
+  food_test_main();
+//  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
