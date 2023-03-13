@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wastegram/screens/waste_list_screen.dart';
+import 'screens/waste_detail_entry.dart';
 import 'screens/waste_detail_entry.dart';
 import 'widgets/new_entry_button.dart';
 
@@ -6,6 +8,7 @@ class WastegramApp extends StatefulWidget {
   // late final DatabaseManager dbManager;
 
   final routes = {
+    FoodWasteListScreen.routeName: (context) => FoodWasteListScreen(),
     WasteDetailEntry.routeName: (context) => WasteDetailEntry(),
   };
 
@@ -60,13 +63,13 @@ class _WastegramAppState extends State<WastegramApp> {
           //   ),
           // ],
         ),
-        body: Placeholder(),
+       // body: Placeholder(),
         // floatingActionButton: AddEntryButton(
         //   saveEntryFunc: saveEntry,), // This trailing comma makes auto-formatting nicer for build methods.
 
         bottomNavigationBar: NewEntryButton(),
       ),
-      // initialRoute:  JournalScaffold.routeName,
+      initialRoute:  FoodWasteListScreen.routeName,
     );
   }
 }

@@ -1,4 +1,7 @@
 import 'dart:ffi';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
 
 class FoodWastePost {
   late final DateTime date;
@@ -6,6 +9,9 @@ class FoodWastePost {
   late final int quantity;
   late final double latitude;
   late final double longitude;
+
+  String get dateStr => DateFormat('EEEE, MMMM dd, y').format(date);
+
 
   FoodWastePost({
     required DateTime this.date,
@@ -17,7 +23,7 @@ class FoodWastePost {
 
   factory FoodWastePost.fromMap(Map<String, dynamic> json){
     return FoodWastePost(
-        date: json['date'],
+        date: (json['date'] as Timestamp).toDate(),
         photoURL: json['photoURL'],
         quantity: json['quantity'],
         latitude: json['latitude'],
