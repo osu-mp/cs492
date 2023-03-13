@@ -45,7 +45,7 @@ class _WastegramAppState extends State<WastegramApp> {
           //           icon: Icon(Icons.settings),
           //           onPressed: () => Scaffold.of(context).openEndDrawer(),
           //           // onPressed: () => Navigator.of(context).pushNamed('settings'),
-          //           tooltip: MaterialLocalizations
+
           //               .of(context)
           //               .openAppDrawerTooltip,
           //         ),

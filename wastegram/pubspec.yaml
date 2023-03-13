@@ -24,6 +24,7 @@ dependencies:
   intl: ^0.18.0
   location: ^4.4.0
   share_plus: ^6.3.1
+  test: ^1.20.2
   transparent_image: ^2.0.1
 
 dev_dependencies:
