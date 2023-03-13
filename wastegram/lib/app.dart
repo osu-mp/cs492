@@ -13,12 +13,20 @@ class WastegramApp extends StatefulWidget {
     // dbInit();
   }
 
-
   @override
   State<WastegramApp> createState() => _WastegramAppState();
 }
 
 class _WastegramAppState extends State<WastegramApp> {
+
+  void initState(){
+    super.initState();
+    retrieveLocation();
+  }
+
+  void retrieveLocation() async {
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
