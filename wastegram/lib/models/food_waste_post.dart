@@ -4,14 +4,15 @@ import 'package:intl/intl.dart';
 
 
 class FoodWastePost {
-  late final DateTime date;
-  late final String photoURL;
-  late final int quantity;
-  late final double latitude;
-  late final double longitude;
+  late DateTime date;
+  late String photoURL;
+  late int quantity;
+  late double latitude;
+  late double longitude;
 
   String get dateStr => DateFormat('EEEE, MMMM dd, y').format(date);
 
+  FoodWastePost.empty();
 
   FoodWastePost({
     required DateTime this.date,
