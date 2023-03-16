@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wastegram/screens/single_entry_summary.dart';
 import 'package:wastegram/screens/waste_list_screen.dart';
 import 'screens/waste_detail_entry.dart';
-import 'screens/waste_detail_entry.dart';
 import 'widgets/new_entry_button.dart';
 
 class WastegramApp extends StatefulWidget {
-  // late final DatabaseManager dbManager;
 
   final routes = {
     FoodWasteListScreen.routeName: (context) => FoodWasteListScreen(),
@@ -14,9 +12,7 @@ class WastegramApp extends StatefulWidget {
     SingleEntrySummary.routeName: (context) => SingleEntrySummary(),
   };
 
-  WastegramApp({Key? key}) : super(key: key){
-    // dbInit();
-  }
+  WastegramApp({Key? key}) : super(key: key){}
 
   @override
   State<WastegramApp> createState() => _WastegramAppState();
@@ -26,10 +22,6 @@ class _WastegramAppState extends State<WastegramApp> {
 
   void initState(){
     super.initState();
-    retrieveLocation();
-  }
-
-  void retrieveLocation() async {
   }
 
   @override
@@ -40,34 +32,10 @@ class _WastegramAppState extends State<WastegramApp> {
 
       theme: ThemeData.dark(),
       home: Scaffold(
-        // endDrawer: SettingsDrawer(
-        //   initValue: darkMode,
-        //   darkModeToggle: (bool value) {
-        //     setState(() {
-        //       widget.preferences.setBool(DARK_MODE_KEY, value);
-        //     });
-        //   },
-        // ),
         appBar: AppBar(
           title: Text('Wastegram'),
           centerTitle: true,
-          // actions: [
-          //   Builder(
-          //     builder: (context) =>
-          //         IconButton(
-          //           icon: Icon(Icons.settings),
-          //           onPressed: () => Scaffold.of(context).openEndDrawer(),
-          //           // onPressed: () => Navigator.of(context).pushNamed('settings'),
-
-          //               .of(context)
-          //               .openAppDrawerTooltip,
-          //         ),
-          //   ),
-          // ],
         ),
-       // body: Placeholder(),
-        // floatingActionButton: AddEntryButton(
-        //   saveEntryFunc: saveEntry,), // This trailing comma makes auto-formatting nicer for build methods.
 
         bottomNavigationBar: NewEntryButton(),
       ),

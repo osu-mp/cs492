@@ -46,12 +46,12 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
 
   @override
   Widget build(BuildContext context) {
-    Widget imgWidget = SizedBox(child: CircularProgressIndicator(), height:  100,);
+    Widget imgWidget = CircularProgressIndicator();
 
     if (image == null) {
       getImage();
     } else {
-      imgWidget = SizedBox(child: Image.file(image!), height:  100,);
+      imgWidget = Expanded(child: Image.file(image!));
     }
 
     return Scaffold(
@@ -64,10 +64,11 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
         children: [
             imgWidget,
             SizedBox(height: 40,),
-            // ElevatedButton(onPressed: (){}, child: Text('Post It')),
             TextFormField(
               autofocus: true,
-              decoration: const InputDecoration(labelText: "Number of wasted items"),
+              decoration: const InputDecoration(
+                  labelText: "Number of wasted items",
+                  floatingLabelAlignment: FloatingLabelAlignment.center),
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -106,7 +107,6 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
   }
 
   void uploadEntry() async {
-    // final url = await getImage();
 
     try {
       var location = await locationHelper.retrieveLocation();

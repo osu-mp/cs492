@@ -3,7 +3,9 @@ import '../models/food_waste_post.dart';
 import '../styles.dart';
 
 class SingleEntrySummary extends StatelessWidget {
-  static  final String routeName = 'SingleEntrySummary';
+  static const String routeName = 'SingleEntrySummary';
+
+  const SingleEntrySummary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +14,13 @@ class SingleEntrySummary extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(entry.dateStr), centerTitle: true,),
-      body: SingleChildScrollView(
-        child: Center(
+      body:
+        Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 40,),
-                Image.network(entry.photoURL),
+                const SizedBox(height: 40,),
+                Expanded(child: Image.network(entry.photoURL)),
                 SizedBox(height: 40,),
                 Text('${entry.quantity.toString()} items', style: Styles.textHeader),
                 SizedBox(height: 40,),
@@ -26,10 +28,10 @@ class SingleEntrySummary extends StatelessWidget {
                   'Location: (${entry.latitude.toString()}, ${entry.longitude.toString()})',
                   style: Styles.textSubHeading,
                 ),
+                SizedBox(height: 40,),
               ],
             )
         ),
-      ),
     );
   }
 

@@ -3,14 +3,7 @@ import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
 class LocationHelper {
-  // LocationData? locationData;
   var locationService = Location();
-
-  // late double _latitude;
-  // late double _longitude;
-  //
-  // double get lattitude => _latitude;
-  // double get longitude => _longitude;
 
   Future<LocationData> retrieveLocation() async {
     LocationData locationData;
@@ -39,5 +32,4 @@ class LocationHelper {
 
     return locationData;
   }
-
 }
