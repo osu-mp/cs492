@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:wastegram/models/food_waste_post.dart';
+import '../services/location_helper.dart';
 
 class WasteDetailEntry extends StatefulWidget{
   static  final String routeName = 'WasteDetailEntry';
@@ -23,6 +24,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
   final _formKey = GlobalKey<FormState>();
 
   FoodWastePost _newEntry = FoodWastePost.empty();
+  LocationHelper locationHelper = LocationHelper();
 
 
   void getImage() async {
@@ -76,7 +78,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
               },
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Please enter a title';
+                  return 'Please enter the number of wasted items';
                 }
                 return null;
               },
@@ -105,8 +107,17 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
 
   void uploadEntry() async {
     // final url = await getImage();
-    _newEntry.longitude = 123.4;
-    _newEntry.latitude = 22.2;    // TODO
+
+    try {
+      var location = await locationHelper.retrieveLocation();
+      _newEntry.latitude = location.latitude!;
+      _newEntry.longitude = location.longitude!;
+    } catch (e){
+      print(e);
+      _newEntry.latitude = 0.0;
+      _newEntry.longitude = 0.0;
+    }
+
 
     FirebaseFirestore.instance
         .collection('food_waste')

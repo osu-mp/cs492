@@ -17,6 +17,7 @@ class SingleEntrySummary extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 40,),
                 Image.network(entry.photoURL),
                 SizedBox(height: 40,),
                 Text('${entry.quantity.toString()} items', style: Styles.textHeader),
@@ -25,7 +26,6 @@ class SingleEntrySummary extends StatelessWidget {
                   'Location: (${entry.latitude.toString()}, ${entry.longitude.toString()})',
                   style: Styles.textSubHeading,
                 ),
-
               ],
             )
         ),
