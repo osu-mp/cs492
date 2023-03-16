@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +20,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
   final ImagePicker _picker = ImagePicker();
   String? text;
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   FoodWastePost _newEntry = FoodWastePost.empty();
 
@@ -26,7 +28,17 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
   void getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     // final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
     image = File(pickedFile!.path);
+
+    var fileName = '${DateTime.now()}.jpg';
+    Reference storageReference = FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = storageReference.putFile(image!);
+    await uploadTask;
+    var url = await storageReference.getDownloadURL();
+
+    _newEntry.photoURL = url;
+
     setState(() {});
   }
 
@@ -44,7 +56,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
       appBar: AppBar(title: const Text('New Post'), centerTitle: true,),
       body: Center(
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -53,7 +65,8 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
             // ElevatedButton(onPressed: (){}, child: Text('Post It')),
             TextFormField(
               autofocus: true,
-              decoration: const InputDecoration(labelText: "Count of wasted items"),
+              decoration: const InputDecoration(labelText: "Number of wasted items"),
+              textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
@@ -70,14 +83,16 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
             ),
             SizedBox(height: 10),
             ElevatedButton(onPressed: () {
-              if (formKey.currentState!.validate()) {
+              if (_formKey.currentState!.validate()) {
                 _newEntry.date = DateTime.now();
-                formKey.currentState!.save();
-                //widget.saveEntryFunc(_newEntry);
-                print("TODO save entry");
+                _formKey.currentState!.save();
+                uploadEntry();
                 Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Uploading entry')),
+                );
               }
-              formKey.currentState!.save();
+              _formKey.currentState!.save();
             },
               child: Text('Save Entry'),
             ),
@@ -87,4 +102,21 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
       ),
     );
   }
+
+  void uploadEntry() async {
+    // final url = await getImage();
+    _newEntry.longitude = 123.4;
+    _newEntry.latitude = 22.2;    // TODO
+
+    FirebaseFirestore.instance
+        .collection('food_waste')
+        .add({'date': Timestamp.fromDate(_newEntry.date),
+              'photoURL': _newEntry.photoURL,
+              'quantity': _newEntry.quantity,
+              'latitude': _newEntry.latitude,
+              'longitude': _newEntry.longitude,
+    });
+  }
+
+
 }
