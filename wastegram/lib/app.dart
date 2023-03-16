@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wastegram/screens/single_entry_summary.dart';
 import 'package:wastegram/screens/waste_list_screen.dart';
 import 'screens/waste_detail_entry.dart';
 import 'screens/waste_detail_entry.dart';
@@ -10,6 +11,7 @@ class WastegramApp extends StatefulWidget {
   final routes = {
     FoodWasteListScreen.routeName: (context) => FoodWasteListScreen(),
     WasteDetailEntry.routeName: (context) => WasteDetailEntry(),
+    SingleEntrySummary.routeName: (context) => SingleEntrySummary(),
   };
 
   WastegramApp({Key? key}) : super(key: key){

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/food_waste_post.dart';
 import '../widgets/new_entry_button.dart';
+import 'single_entry_summary.dart';
 
 class FoodWasteListScreen extends StatefulWidget {
   static const String routeName = 'FoodWasteList';
@@ -29,10 +30,16 @@ class _FoodWasteListScreenState extends State<FoodWasteListScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Wastegram'), centerTitle: true,),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('food_waste').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('food_waste')
+            .orderBy('date', descending: true)
+            .snapshots(),
         builder: (context, snapshot){
           if (!snapshot.hasData)
-            return const Text('Loading...');
+            return const CircularProgressIndicator();
+
+          if (snapshot.data!.docs.isEmpty)
+            return const Text('No entries found, use button at bottom to create an entry');
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index){
@@ -41,6 +48,12 @@ class _FoodWasteListScreenState extends State<FoodWasteListScreen> {
                 return ListTile(
                   title: Text(entry.dateStr),
                   trailing: Text(entry.quantity.toString()),
+                  onTap: (){
+                    Navigator.of(context).pushNamed(
+                      SingleEntrySummary.routeName,
+                      arguments: entry,
+                    );
+                  },
                 );
             },
           );
