@@ -21,28 +21,21 @@ class _FoodWasteListScreenState extends State<FoodWasteListScreen> {
   @override
   void initState(){
     super.initState();
-    retrieveData();
     updateSum();
-  }
-
-  void retrieveData() async {
-
-    // setState(() {
-    //   _waste_sum = sum;
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Wastegram ${_waste_sum}'), centerTitle: true,),
+      appBar: AppBar(title: Text('Wastegram - ${_waste_sum}'), centerTitle: true,),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('food_waste')
             .orderBy('date', descending: true)
             .snapshots(),
         builder: (context, snapshot){
+          updateSum();
           if (snapshot.hasError){
             return Center(
                 child: Text("Error reading from database", style: Styles.textSubHeading,));
@@ -58,8 +51,6 @@ class _FoodWasteListScreenState extends State<FoodWasteListScreen> {
             );
           }
 
-
-          // }
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index){
