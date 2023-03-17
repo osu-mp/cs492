@@ -8,23 +8,21 @@ import 'package:wastegram/models/food_waste_post.dart';
 import '../services/location_helper.dart';
 
 class WasteDetailEntry extends StatefulWidget{
-  static  final String routeName = 'WasteDetailEntry';
+  static const String routeName = 'WasteDetailEntry';
 
-  WasteDetailEntry({Key? key}) : super(key: key);
+  const WasteDetailEntry({Key? key}) : super(key: key);
 
   @override
   State<WasteDetailEntry> createState() => _WasteDetailEntryState();
 }
 
 class _WasteDetailEntryState extends State<WasteDetailEntry> {
-  File? image;
   final ImagePicker _picker = ImagePicker();
-  String? text;
-
   final _formKey = GlobalKey<FormState>();
-
-  FoodWastePost _newEntry = FoodWastePost.empty();
-  LocationHelper locationHelper = LocationHelper();
+  final FoodWastePost _newEntry = FoodWastePost.empty();
+  final LocationHelper locationHelper = LocationHelper();
+  File? image;
+  String? text;
 
 
   void getImage() async {
@@ -46,7 +44,10 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
 
   @override
   Widget build(BuildContext context) {
-    Widget imgWidget = CircularProgressIndicator();
+    final updateFunc = ModalRoute.of(context)!.settings.arguments as Function;
+
+
+    Widget imgWidget = const CircularProgressIndicator();
 
     if (image == null) {
       getImage();
@@ -63,7 +64,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
             imgWidget,
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             TextFormField(
               autofocus: true,
               decoration: const InputDecoration(
@@ -84,7 +85,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _newEntry.date = DateTime.now();
@@ -94,10 +95,11 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Uploading entry')),
                 );
+                updateFunc();
               }
               _formKey.currentState!.save();
             },
-              child: Text('Save Entry'),
+              child: const Text('Save Entry'),
             ),
         ],
       ),
@@ -117,7 +119,6 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
       _newEntry.latitude = 0.0;
       _newEntry.longitude = 0.0;
     }
-
 
     FirebaseFirestore.instance
         .collection('food_waste')

@@ -11,7 +11,6 @@ class SingleEntrySummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final entry = ModalRoute.of(context)!.settings.arguments as FoodWastePost;
 
-
     return Scaffold(
       appBar: AppBar(title: Text(entry.dateStr), centerTitle: true,),
       body:
@@ -21,14 +20,15 @@ class SingleEntrySummary extends StatelessWidget {
               children: [
                 const SizedBox(height: 40,),
                 Expanded(child: Image.network(entry.photoURL)),
-                SizedBox(height: 40,),
-                Text('${entry.quantity.toString()} items', style: Styles.textHeader),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
+                Text('${entry.quantity.toString()} items',
+                    style: Styles.textHeader),
+                const SizedBox(height: 40,),
                 Text(
                   'Location: (${entry.latitude.toString()}, ${entry.longitude.toString()})',
                   style: Styles.textSubHeading,
                 ),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
               ],
             )
         ),

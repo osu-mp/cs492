@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../screens/waste_detail_entry.dart';
 
 class NewEntryButton extends StatelessWidget{
+  final Function? updateFunc;
+
+  NewEntryButton({super.key, this.updateFunc});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -11,7 +15,10 @@ class NewEntryButton extends StatelessWidget{
 
 
       onPressed: (){
-        Navigator.of(context).pushNamed(WasteDetailEntry.routeName);
+        Navigator.of(context)
+            .pushNamed(WasteDetailEntry.routeName,
+              arguments: updateFunc,
+        );
       },
     );
   }
