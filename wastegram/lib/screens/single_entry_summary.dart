@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../models/food_waste_post.dart';
 import '../styles.dart';
 
@@ -19,7 +20,10 @@ class SingleEntrySummary extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 40,),
-                Expanded(child: Image.network(entry.photoURL)),
+                Expanded(child: FadeInImage.memoryNetwork(
+                    image: entry.photoURL,
+                  placeholder: kTransparentImage,
+                )),
                 const SizedBox(height: 40,),
                 Text('${entry.quantity.toString()} items',
                     style: Styles.textHeader),

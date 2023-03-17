@@ -90,12 +90,11 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
               if (_formKey.currentState!.validate()) {
                 _newEntry.date = DateTime.now();
                 _formKey.currentState!.save();
-                uploadEntry();
+                uploadEntry(updateFunc);
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Uploading entry')),
                 );
-                updateFunc();
               }
               _formKey.currentState!.save();
             },
@@ -108,7 +107,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
     );
   }
 
-  void uploadEntry() async {
+  void uploadEntry(Function updateFunc) async {
 
     try {
       var location = await locationHelper.retrieveLocation();
@@ -120,7 +119,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
       _newEntry.longitude = 0.0;
     }
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('food_waste')
         .add({'date': Timestamp.fromDate(_newEntry.date),
               'photoURL': _newEntry.photoURL,
@@ -128,6 +127,7 @@ class _WasteDetailEntryState extends State<WasteDetailEntry> {
               'latitude': _newEntry.latitude,
               'longitude': _newEntry.longitude,
     });
+    updateFunc();
   }
 
 
